@@ -1,0 +1,24 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'app.workbetter.tv'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'app.workbetter.tv'
+        minSdk 26
+        targetSdk 36
+        versionCode providers.gradleProperty('tvVersionCode').getOrElse('2').toInteger()
+        versionName '0.2.0'
+    }
+    buildTypes {
+        debug { manifestPlaceholders = [allowCleartext: 'true'] }
+        sideload {
+            initWith release
+            // Keep updates compatible with this personal app's original sideload.
+            signingConfig signingConfigs.debug
+            debuggable false
+            manifestPlaceholders = [allowCleartext: 'true']
+        }
+        release { manifestPlaceholders = [allowCleartext: 'false']; minifyEnabled false }
+    }
+}
+dependencies { implementation 'androidx.core:core:1.13.1' }
